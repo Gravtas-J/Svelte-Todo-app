@@ -1,107 +1,43 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+## My Svelte To-Do App
 
----
+Welcome to the documentation for my simple To-Do App built with Svelte!
 
-# svelte app
+### Overview:
+I built this app to grasp the basics of Svelte, and I'm happy to walk you through the logic and structure of my code. It's a straightforward application that lets users add, mark as done, and delete tasks.
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+### How I Structured the Data:
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+1. **Tasks Array**: 
+    - I used an array named `tasks` to store all the task items. Each task is an object with `id`, `text`, and `done` properties:
+        - `id`: I used a timestamp as a unique identifier for every task.
+        - `text`: It holds the description of the task.
+        - `done`: A boolean flag to indicate if a task is completed or not.
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+2. **Task Input**: 
+    - For capturing user inputs, I used a variable `taskInput`. This gets updated with whatever the user types into the input field.
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+### My Functions:
 
+1. **addTask**: 
+    - When the "Add Task" button is clicked, this function gets triggered. I check if the `taskInput` isn't just whitespace and then append a new task object to our `tasks` array. After adding, I clear out the `taskInput`.
 
-## Get started
+2. **deleteTask**: 
+    - For every task, I've provided a "Delete" button. When pressed, it calls this function with the task's unique `id`. I then filter out the task with the matching `id` from our `tasks` array.
 
-Install the dependencies...
+3. **toggleDone**: 
+    - Each task has a checkbox. I use this function to toggle the `done` status of a task. Whenever a checkbox is clicked, I map through the `tasks` array and flip the `done` flag of the task with the matching `id`.
 
-```bash
-cd svelte-app
-npm install
-```
+### How I Displayed the Data:
 
-...then start [Rollup](https://rollupjs.org):
+- For rendering each task, I relied on Svelte's `{#each ...}` loop. Inside this loop:
+    1. I rendered a checkbox that is bound to the task's `done` status.
+    2. I showed the task's text. If a task is marked as done, I applied a `done` class to strike through the text.
+    3. I included a "Delete" button to remove the task.
 
-```bash
-npm run dev
-```
+### Reactive Count:
+- I wanted to show how many tasks were left unfinished. For this, I created a reactive statement `$: unfinishedCount` that recalculates the number of tasks not marked as `done` every time our `tasks` array gets updated.
 
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+### Styling:
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+- To visually differentiate between finished and unfinished tasks, I created a CSS class named `.done` that applies a line-through to the text.
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
